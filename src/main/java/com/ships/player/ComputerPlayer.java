@@ -1,3 +1,7 @@
+package com.ships.player;
+
+import com.ships.ship.Ship;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,7 +24,7 @@ public class ComputerPlayer extends Player {
     private int[] evenNumbers = {0, 2, 4, 6};
 
 
-    ComputerPlayer(int sizeMap) {
+    public ComputerPlayer(int sizeMap) {
         super(sizeMap);
     }
 

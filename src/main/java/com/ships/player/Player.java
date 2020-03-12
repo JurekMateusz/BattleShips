@@ -1,3 +1,7 @@
+package com.ships.player;
+
+import com.ships.ship.Ship;
+
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -18,7 +22,7 @@ public class Player {
         return sunkShip;
     }
 
-    protected void iniciateMap() {
+    public void iniciateMap() {
         for (int i = 0; i < sizeMap; i++) {
             for (int j = 0; j < sizeMap; j++) {
                 Map[i][j] = '-';
@@ -30,7 +34,7 @@ public class Player {
         sunkShip = bool;
     }
 
-    protected char getElementMap(int x, int y) {
+    public char getElementMap(int x, int y) {
         return Map[x][y];
     }
 
@@ -75,7 +79,7 @@ public class Player {
         return false;
     }
 
-    protected boolean isShottedSetMapAndIsSunk(Point pointShot) {// tutaj skończyłem
+    public boolean isShottedSetMapAndIsSunk(Point pointShot) {// tutaj skończyłem
         ArrayList<Point> listPointsOfShip;
         for (Ship ship : ships) {
             listPointsOfShip = ship.getListOfPoints();

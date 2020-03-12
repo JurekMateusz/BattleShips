@@ -1,11 +1,16 @@
+package com.ships.player;
+
+import com.ships.ship.Ship;
+import com.ships.imput.ReadCord;
+
 import java.awt.Point;
 import java.util.ArrayList;
 
-class HumanPlayer extends Player {
+public class HumanPlayer extends Player {
     private int lengthShip = 3;
     private ReadCord reader = new ReadCord();
 
-    HumanPlayer(int sizeMap) {
+    public HumanPlayer(int sizeMap) {
         super(sizeMap);
     }
 

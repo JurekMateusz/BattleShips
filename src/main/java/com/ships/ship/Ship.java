@@ -1,14 +1,16 @@
+package com.ships.ship;
+
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Ship {
     private ArrayList<Point> points;
 
-    Ship(ArrayList<Point> arrayPoints) {
+    public Ship(ArrayList<Point> arrayPoints) {
         points = new ArrayList<>(arrayPoints);
     }
 
-    ArrayList<Point> getListOfPoints() {
+    public ArrayList<Point> getListOfPoints() {
         return points;
     }
 

@@ -1,3 +1,5 @@
+package com.ships.imput;
+
 import java.awt.Point;
 import java.util.*;
 

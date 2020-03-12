@@ -1,6 +1,12 @@
+package com.ships;
+
+import com.ships.imput.ReadCord;
+import com.ships.player.ComputerPlayer;
+import com.ships.player.HumanPlayer;
+
 import java.awt.*;
 
-public class ShipGame {
+public class MainGame {
     private final char[] lettersInMap = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
     private final static int SIZE_MAP = 7;
     private int maxNumbersOfShips = 3;
@@ -10,7 +16,7 @@ public class ShipGame {
 
     private Point pointShot;
 
-    private void initiateMap() {
+    public void initiateMap() {
         computerPlayer = new ComputerPlayer(SIZE_MAP);
         computerPlayer.chooseCordsShips(maxNumbersOfShips);
 
@@ -42,12 +48,12 @@ public class ShipGame {
         System.out.println();
     }
 
-    private void prepareMap() {
+    public void prepareMap() {
         computerPlayer.iniciateMap();
         humanPlayer.iniciateMap();
     }
 
-    private void play() {
+    public void play() {
         while (true) {
             System.out.println(System.lineSeparator());
             while (true) {
@@ -102,24 +108,5 @@ public class ShipGame {
             }
             printMaps();
         }
-    }
-
-
-    public static void main(String[] args) {
-        ShipGame shipGame = new ShipGame();
-
-        System.out.println("Game started!" + System.lineSeparator() + "Now you will be put your " + shipGame.maxNumbersOfShips + " ships in map");
-        System.out.println("Size ship is 3 filds");
-        System.out.println("Type in number  \"1\"-\"7\" and charakter: \"A\"-\"G\"");
-        System.out.println("For example 1A 2A 3A");
-
-        shipGame.initiateMap();
-
-        System.out.println(System.lineSeparator() + "you successfully put your ships on map.Now you can compete with Computer.");
-        System.out.println("Enter imput like: \"2G\" or \"5F\"");
-        System.out.println("'1' = hit ship\t\t'x' = mishit");
-
-        shipGame.prepareMap();
-        shipGame.play();
     }
 }
