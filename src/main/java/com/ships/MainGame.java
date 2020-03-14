@@ -1,6 +1,6 @@
 package com.ships;
 
-import com.ships.imput.ReadCord;
+import com.ships.input.ReadCord;
 import com.ships.player.ComputerPlayer;
 import com.ships.player.HumanPlayer;
 
@@ -23,36 +23,10 @@ public class MainGame {
         humanPlayer = new HumanPlayer(SIZE_MAP);
         humanPlayer.chooseCordsShips(maxNumbersOfShips);
     }
-
-    private void printMaps() {
-        System.out.print("    Your Map:\t\t\t\t\t    Computer Map:");
-        System.out.print(System.lineSeparator() + "   ");
-        for (int i = 1; i <= SIZE_MAP; i++) {
-            System.out.print(i + "  ");
-        }
-        System.out.print("\t\t   ");
-        for (int i = 1; i <= SIZE_MAP; i++) {
-            System.out.print(i + "  ");
-        }
-        for (int i = 0; i < SIZE_MAP; i++) {
-            System.out.print(System.lineSeparator() + lettersInMap[i] + "  ");
-            for (int j = 0; j < SIZE_MAP; j++) {
-                System.out.print(computerPlayer.getElementMap(i, j) + "  ");
-            }
-            System.out.print("\t\t");
-            System.out.print(lettersInMap[i] + "  ");
-            for (int j = 0; j < SIZE_MAP; j++) {
-                System.out.print(humanPlayer.getElementMap(i, j) + "  ");
-            }
-        }
-        System.out.println();
-    }
-
     public void prepareMap() {
         computerPlayer.iniciateMap();
         humanPlayer.iniciateMap();
     }
-
     public void play() {
         while (true) {
             System.out.println(System.lineSeparator());
@@ -98,7 +72,7 @@ public class MainGame {
                     computerPlayer.setAllDrectionsTrue();
                     computerPlayer.setSunkShip(false);
                     computerPlayer.setFirstTimeComeToSecondStage();
-                    computerPlayer.clearTableOfGeneratetPoints();
+                    computerPlayer.clearTableOfGeneratePoints();
                 }
             } else {
                 System.out.println("\t\t\tComputer mishit: " + ReadCord.changePoint(pointShot));
@@ -108,5 +82,30 @@ public class MainGame {
             }
             printMaps();
         }
+    }
+
+
+    private void printMaps() {
+        System.out.print("    Your Map:\t\t\t\t\t    Computer Map:");
+        System.out.print(System.lineSeparator() + "   ");
+        for (int i = 1; i <= SIZE_MAP; i++) {
+            System.out.print(i + "  ");
+        }
+        System.out.print("\t\t   ");
+        for (int i = 1; i <= SIZE_MAP; i++) {
+            System.out.print(i + "  ");
+        }
+        for (int i = 0; i < SIZE_MAP; i++) {
+            System.out.print(System.lineSeparator() + lettersInMap[i] + "  ");
+            for (int j = 0; j < SIZE_MAP; j++) {
+                System.out.print(computerPlayer.getElementMap(i, j) + "  ");
+            }
+            System.out.print("\t\t");
+            System.out.print(lettersInMap[i] + "  ");
+            for (int j = 0; j < SIZE_MAP; j++) {
+                System.out.print(humanPlayer.getElementMap(i, j) + "  ");
+            }
+        }
+        System.out.println();
     }
 }

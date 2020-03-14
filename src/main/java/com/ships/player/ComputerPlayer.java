@@ -90,6 +90,45 @@ public class ComputerPlayer extends Player {
         return result;
     }
 
+    private Point shotShipSecondStage() {
+        Point result;
+        if (firstTimeComeToSecondStage++ == 1) {
+            makeListOfPointsIn4Directions();
+        }
+        if (wasNOTShottedLastTime) {
+            banDirection(lastChoosenDirection);
+        }
+        if (wasShottedLastTime) {
+            banTwoDirections();
+        }
+        if (wasNOTShottedLastTime && isAllDirectionFalse()) {
+            unbanTwoDirections();
+        }
+        wasShottedLastTime = false;
+        wasNOTShottedLastTime = false;
+
+        secureFromExtremePoints(lastPoint);
+
+        while (true) {
+            int i = generator.nextInt(4);
+            if (helpDirectionShot[i] == true) {
+                result = allGeneratedPointsInSecondStage[i].removeFirst();
+                if (allShottedPoints.contains(result)) {
+                    banDirection(i);
+                    continue;
+                }
+                lastChoosenDirection = i;
+                return result;
+            }
+        }
+    }
+
+    public void clearTableOfGeneratePoints() {
+        for (int i = 0; i < allGeneratedPointsInSecondStage.length; i++) {
+            allGeneratedPointsInSecondStage[i] = null;
+        }
+    }
+
     private void didCordsCanBeIfNotChangeDirect(int[] cordsInTab) {
         switch (cordsInTab[2]) {
             case 0:
@@ -115,6 +154,7 @@ public class ComputerPlayer extends Player {
         }
     }
 
+
     private void changeCordByDirect(int[] bufTab) {
         switch (bufTab[2]) {
             case 0:
@@ -139,12 +179,6 @@ public class ComputerPlayer extends Player {
             changeCordByDirect(tab);
         }
         return result;
-    }
-
-    public void clearTableOfGeneratetPoints() {
-        for (int i = 0; i < allGeneratedPointsInSecondStage.length; i++) {
-            allGeneratedPointsInSecondStage[i] = null;
-        }
     }
 
     private void makeListOfPointsIn4Directions() {
@@ -247,40 +281,7 @@ public class ComputerPlayer extends Player {
         }
     }
 
-    private Point shotShipSecondStage() {
-        Point result;
-        if (firstTimeComeToSecondStage++ == 1) {
-            makeListOfPointsIn4Directions();
-        }
-        if (wasNOTShottedLastTime) {
-            banDirection(lastChoosenDirection);
-        }
-        if (wasShottedLastTime) {
-            banTwoDirections();
-        }
-        if (wasNOTShottedLastTime && isAllDirectionFalse()) {
-            unbanTwoDirections();
-        }
-        wasShottedLastTime = false;
-        wasNOTShottedLastTime = false;
-
-        secureFromExtremePoints(lastPoint);
-
-        while (true) {
-            int i = generator.nextInt(4);
-            if (helpDirectionShot[i] == true) {
-                result = allGeneratedPointsInSecondStage[i].removeFirst();
-                if (allShottedPoints.contains(result)) {
-                    banDirection(i);
-                    continue;
-                }
-                lastChoosenDirection = i;
-                return result;
-            }
-        }
-    }
-
-    private Point shotShipFirstStage(){
+    private Point shotShipFirstStage() {
         Point result = new Point();
         do {
             if ((++functionCallNumber % 2) == 0) {

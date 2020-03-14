@@ -1,7 +1,7 @@
 package com.ships.player;
 
 import com.ships.ship.Ship;
-import com.ships.imput.ReadCord;
+import com.ships.input.ReadCord;
 
 import java.awt.Point;
 import java.util.ArrayList;

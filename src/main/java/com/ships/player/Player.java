@@ -38,17 +38,26 @@ public class Player {
         return Map[x][y];
     }
 
-    protected void addPointsToMap() {
-        for (Ship ship : ships) {
-            ArrayList<Point> arr = ship.getListOfPoints();
-            for (Point point : arr) {
-                Map[point.y][point.x] = '1';
-            }
-        }
-    }
-
     public boolean allDrowned() {
         return ships.isEmpty();
+    }
+
+    public boolean isShottedSetMapAndIsSunk(Point pointShot) {// tutaj skończyłem
+        ArrayList<Point> listPointsOfShip;
+        for (Ship ship : ships) {
+            listPointsOfShip = ship.getListOfPoints();
+            Map[pointShot.y][pointShot.x] = 'x';
+            if (listPointsOfShip.contains(pointShot)) {
+                Map[pointShot.y][pointShot.x] = '1';
+                listPointsOfShip.remove(pointShot);
+                if (listPointsOfShip.isEmpty()) {
+                    sunkShip = true;
+                    ships.remove(ship);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 
     protected void printMap() {
@@ -79,21 +88,12 @@ public class Player {
         return false;
     }
 
-    public boolean isShottedSetMapAndIsSunk(Point pointShot) {// tutaj skończyłem
-        ArrayList<Point> listPointsOfShip;
+    protected void addPointsToMap() {
         for (Ship ship : ships) {
-            listPointsOfShip = ship.getListOfPoints();
-            Map[pointShot.y][pointShot.x] = 'x';
-            if (listPointsOfShip.contains(pointShot)) {
-                Map[pointShot.y][pointShot.x] = '1';
-                listPointsOfShip.remove(pointShot);
-                if (listPointsOfShip.isEmpty()) {
-                    sunkShip = true;
-                    ships.remove(ship);
-                }
-                return true;
+            ArrayList<Point> arr = ship.getListOfPoints();
+            for (Point point : arr) {
+                Map[point.y][point.x] = '1';
             }
         }
-        return false;
     }
 }
