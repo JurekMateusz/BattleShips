@@ -33,36 +33,36 @@ class ReadCordTest {
 
     }
 
-//    @Test
-//    void readPointMethodShouldAssertTrueForUserInput() {
-//        goodSingleInput.forEach((point, stringLinkedList) -> {
-//            stringLinkedList.forEach(input -> {
-//                putToSystemInput(input);
-//                assertEquals(point, readCord.readPoint());
-//            });
-//        });
-//    }
-//
-//    @Test
-//    void readPointMethodShouldReturnNullForBadUserInput() {
-//        badSingleInput.forEach(input -> {
-//            putToSystemInput(input);
-//            assertNull(readCord.readPoint());
-//        });
-//    }
+    @Test
+    void readPointMethodShouldAssertTrueForUserInput() {
+        goodSingleInput.forEach((point, stringLinkedList) -> {
+            stringLinkedList.forEach(input -> {
+                putToSystemInput(input);
+                assertEquals(point, readCord.readPoint());
+            });
+        });
+    }
 
-//    @Test
-//    void readMorePointsGoodInputTest() {
-//       goodMultipleInput.forEach((pointLinkedList,stringLinkedList)->{
-//           stringLinkedList.forEach(input ->{
-//               putToSystemInput(input);
-//               ArrayList<Point> list = readCord.readPoints();
-//               list.removeAll(pointLinkedList);
-//               assertTrue(list.isEmpty());
-//           });
-//       });
-//    }
-//
+    @Test
+    void readPointMethodShouldReturnNullForBadUserInput() {
+        badSingleInput.forEach(input -> {
+            putToSystemInput(input);
+            assertNull(readCord.readPoint());
+        });
+    }
+
+    @Test
+    void readMorePointsGoodInputTest() {
+       goodMultipleInput.forEach((pointLinkedList,stringLinkedList)->{
+           stringLinkedList.forEach(input ->{
+               putToSystemInput(input);
+               ArrayList<Point> list = readCord.readPoints();
+               list.removeAll(pointLinkedList);
+               assertTrue(list.isEmpty());
+           });
+       });
+    }
+
     @Test
     void readMorePointsShouldReturnNullForBadMultipleInput(){
         badMultipleInput.forEach(input -> {
@@ -104,7 +104,7 @@ class ReadCordTest {
         listPoints.add(new Point(2,2));
         listPoints.add(new Point(2,3));
         listPoints.add(new Point(2,4));
-        String[] goodInputPoints = new String[]{"1C 1D 1E","1E  1d c1 ","  d1   c1 e1"};
+        String[] goodInputPoints = new String[]{"3C 3D 3E","3E  3d c3 ","  d3   c3 e3"};
         LinkedList<String> listInput = new LinkedList<>(Arrays.asList(goodInputPoints));
         goodMultipleInput.put(listPoints,listInput);
 
