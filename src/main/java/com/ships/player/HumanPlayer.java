@@ -29,7 +29,7 @@ public class HumanPlayer extends Player {
     }
 
 
-    public void chooseCordsShips(int NumbersOfShips) {
+    public void putShips(int NumbersOfShips) {
         int i = 0;
         ArrayList<Point> points;
 

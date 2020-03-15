@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Player {
     private final char[] lettersInMap = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
-    protected ArrayList<Ship> ships = new ArrayList<>();
+    protected ArrayList<Ship> ships;
     protected boolean sunkShip = false;
     protected int sizeMap;
     protected char[][] Map;
@@ -15,6 +15,7 @@ public class Player {
     Player(int sizeMap) {
         this.sizeMap = sizeMap;
         Map = new char[sizeMap][sizeMap];
+        ships = new ArrayList<>();
         iniciateMap();
     }
 
@@ -45,7 +46,7 @@ public class Player {
     public boolean isShottedSetMapAndIsSunk(Point pointShot) {// tutaj skończyłem
         ArrayList<Point> listPointsOfShip;
         for (Ship ship : ships) {
-            listPointsOfShip = ship.getListOfPoints();
+            listPointsOfShip = ship.getPoints();
             Map[pointShot.y][pointShot.x] = 'x';
             if (listPointsOfShip.contains(pointShot)) {
                 Map[pointShot.y][pointShot.x] = '1';
@@ -78,7 +79,7 @@ public class Player {
 
     protected boolean isPointsExist(ArrayList<Point> points) {
         for (Ship v : ships) {
-            ArrayList<Point> listPointsOfShip = v.getListOfPoints();
+            ArrayList<Point> listPointsOfShip = v.getPoints();
             for (Point point : points) {
                 if (listPointsOfShip.contains(point)) {
                     return true;
@@ -90,7 +91,7 @@ public class Player {
 
     protected void addPointsToMap() {
         for (Ship ship : ships) {
-            ArrayList<Point> arr = ship.getListOfPoints();
+            ArrayList<Point> arr = ship.getPoints();
             for (Point point : arr) {
                 Map[point.y][point.x] = '1';
             }

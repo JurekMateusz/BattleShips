@@ -10,7 +10,7 @@ public class Ship {
         points = new ArrayList<>(arrayPoints);
     }
 
-    public ArrayList<Point> getListOfPoints() {
+    public ArrayList<Point> getPoints() {
         return points;
     }
 

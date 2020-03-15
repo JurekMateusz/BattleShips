@@ -18,10 +18,10 @@ public class MainGame {
 
     public void initiateMap() {
         computerPlayer = new ComputerPlayer(SIZE_MAP);
-        computerPlayer.chooseCordsShips(maxNumbersOfShips);
+        computerPlayer.putShips();
 
         humanPlayer = new HumanPlayer(SIZE_MAP);
-        humanPlayer.chooseCordsShips(maxNumbersOfShips);
+        humanPlayer.putShips(maxNumbersOfShips);
     }
     public void prepareMap() {
         computerPlayer.iniciateMap();

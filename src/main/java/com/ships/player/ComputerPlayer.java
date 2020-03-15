@@ -1,6 +1,6 @@
 package com.ships.player;
 
-import com.ships.ship.Ship;
+import com.ships.ship.GenerateShips;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -55,25 +55,17 @@ public class ComputerPlayer extends Player {
         wasShottedLastTime = bool;
     }
 
-    public void chooseCordsShips(int numbersOfShips) {
-        int i = 0;
-        int[] cordsInTab = new int[4];
+    public void putShips() {
+        GenerateShips generateShips = new GenerateShips(sizeMap);
 
-        while (i < numbersOfShips) {
-            cordsInTab[0] = generator.nextInt(sizeMap); // x
-            cordsInTab[1] = generator.nextInt(sizeMap); //y
-            cordsInTab[2] = generator.nextInt(4); //direction
-            cordsInTab[3] = 3; //temporary variable ,length ship,change in future
-
-            didCordsCanBeIfNotChangeDirect(cordsInTab);
-            ArrayList<Point> Points = makePoints(cordsInTab);
-
-            if (!isPointsExist(Points)) {
-                ships.add(new Ship(Points));
-                i++;
-            }
+        int lengthShip = 6;
+        generateShips.addShipToList(ships, lengthShip);
+//Should give 2x 4ship ,2x3ship 2x 2ship
+        for (int lengthShips = 2; lengthShips < 5; lengthShips++) {
+            int numberOfShipGivenLength = 2;
+            while (numberOfShipGivenLength-- > 0)
+                generateShips.addShipToList(ships, lengthShip);
         }
-        addPointsToMap();
     }
 
     public Point shotShip() {
@@ -127,58 +119,6 @@ public class ComputerPlayer extends Player {
         for (int i = 0; i < allGeneratedPointsInSecondStage.length; i++) {
             allGeneratedPointsInSecondStage[i] = null;
         }
-    }
-
-    private void didCordsCanBeIfNotChangeDirect(int[] cordsInTab) {
-        switch (cordsInTab[2]) {
-            case 0:
-                if (cordsInTab[1] + cordsInTab[3] - 1 >= sizeMap) {
-                    cordsInTab[2] = 1;
-                }
-                break;
-            case 1:
-                if (cordsInTab[1] - cordsInTab[3] + 1 < 0) {
-                    cordsInTab[2] = 0;
-                }
-                break;
-            case 2:
-                if (cordsInTab[0] + cordsInTab[3] - 1 >= sizeMap) {
-                    cordsInTab[2] = 3;
-                }
-                break;
-            case 3:
-                if (cordsInTab[0] - cordsInTab[3] + 1 < 0) {
-                    cordsInTab[2] = 2;
-                }
-                break;
-        }
-    }
-
-
-    private void changeCordByDirect(int[] bufTab) {
-        switch (bufTab[2]) {
-            case 0:
-                bufTab[1] += 1;
-                break;
-            case 1:
-                bufTab[1] -= 1;
-                break;
-            case 2:
-                bufTab[0] += 1;
-                break;
-            case 3:
-                bufTab[0] -= 1;
-                break;
-        }
-    }
-
-    private ArrayList<Point> makePoints(int[] tab) {
-        ArrayList<Point> result = new ArrayList<>();
-        for (int i = 0; i < tab[3]; i++) {
-            result.add(new Point(tab[0], tab[1]));
-            changeCordByDirect(tab);
-        }
-        return result;
     }
 
     private void makeListOfPointsIn4Directions() {
