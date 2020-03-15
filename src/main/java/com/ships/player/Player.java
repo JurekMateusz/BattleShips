@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class Player {
-    private final char[] lettersInMap = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
+    private final char[] lettersInMap = {'A', 'B', 'C', 'D', 'E', 'F', 'G','H','I','J'};
     protected ArrayList<Ship> ships;
     protected boolean sunkShip = false;
     protected int sizeMap;

@@ -10,9 +10,8 @@ public class ReadCord {
 
     public Point readPoint() {
         int[] cordsInTab = new int[4]; //respectively x ,y ,tab[2] and tab[3] control good imput
-        String txtBufor;
         Scanner scanner = new Scanner(System.in);
-        txtBufor = scanner.nextLine();
+        String txtBufor = scanner.nextLine().trim();
         makeGoodInput(txtBufor, cordsInTab);
         if (cordsInTab[2] != 3 || cordsInTab[3] != 2) {
             return null;
@@ -25,11 +24,10 @@ public class ReadCord {
         ArrayList<Point> result = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         String bufor = scanner.nextLine();
-        String[] splitBufor = bufor.split(" ");
-        for (String txt : splitBufor) {
-            if (txt.isEmpty()) {
-                continue;
-            }
+        StringTokenizer stringTokenizer = new StringTokenizer(bufor);
+
+        while (stringTokenizer.hasMoreTokens()) {
+            String txt = stringTokenizer.nextToken();
             makeGoodInput(txt, cordsInTab);
             if (cordsInTab[2] != 3 || cordsInTab[3] != 2) {
                 return null;
@@ -40,9 +38,7 @@ public class ReadCord {
                 cordsInTab[i] = 0;
             }
         }
-        if (result.size() == 1) {
-            return result;
-        }
+
         if (!correctPoints(result)) {
             return null;
         }
@@ -51,16 +47,21 @@ public class ReadCord {
 
     private void makeGoodInput(String txt, int[] tabCharacter) {
         txt = txt.toUpperCase();
-        txt = txt.trim();
         for (int i = 0; i < txt.length(); i++) {
             int buf = txt.charAt(i);
             tabCharacter[3]++;
-            if (buf >= 65 && buf <= 71) {
+            if (buf >= 65 && buf <= 74) {
                 tabCharacter[0] = changeCharacterToNumber(txt.charAt(i)); //y
                 tabCharacter[2] += 2;
             }
-            if (buf >= 49 && buf <= 55) {
-                tabCharacter[1] = Integer.parseInt(String.valueOf(txt.charAt(i))); //x
+            if (buf >= 49 && buf <= 58) {
+                if ((i + 1) < txt.length() && txt.charAt(i + 1) == '0') {
+                    String number10 = "" + txt.charAt(i) + txt.charAt(i + 1);
+                    tabCharacter[1] = Integer.parseInt(number10);
+                    i++;
+                } else {
+                    tabCharacter[1] = Integer.parseInt(String.valueOf(txt.charAt(i))); //x
+                }
                 tabCharacter[1] -= 1; //bicause map start form 0,user only think he put "1"
                 tabCharacter[2] += 1;
             }
@@ -123,6 +124,12 @@ public class ReadCord {
 
     private boolean correctPoints(ArrayList<Point> arrayList) {
         //this method check points is correct(in one line).  5A 5B 5C -correct , 5A 6D A1 -NOT
+        if (arrayList.size() == 1) {
+            return true;
+        }
+        if(arrayList.isEmpty()){
+            return false;
+        }
         boolean sortByX = true;
         boolean sortByY = true;
 

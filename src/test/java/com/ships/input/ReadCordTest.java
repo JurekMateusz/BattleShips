@@ -81,6 +81,16 @@ class ReadCordTest {
         });
     }
 
+//    @Test
+//    void test() { //10I", "I10 ", " i10 ", " 10i  "
+//        InputStream inputStream = new ByteArrayInputStream("A6 A6 6A".getBytes());
+//        System.setIn(inputStream);
+//        ArrayList<Point> ree= readCord.readPoints();
+//        inputStream = new ByteArrayInputStream(" 10i ".getBytes());
+//        System.setIn(inputStream);
+//       assertEquals( new Point(9, 8),readCord.readPoint());
+//    }
+
     private static void putGoodInputToHashMap() {
         String[] input = new String[]{"1a", "a1", "  1A", "A1  "};
         LinkedList<String> list = new LinkedList<>(Arrays.asList(input));
@@ -97,6 +107,18 @@ class ReadCordTest {
         input = new String[]{"c4", "C4", "4c", "4C"};
         list = new LinkedList<>(Arrays.asList(input));
         goodSingleInput.put(new Point(3, 2), list);
+
+        input = new String[]{"10J", "J10", " j10 ", "10J  "};
+        list = new LinkedList<>(Arrays.asList(input));
+        goodSingleInput.put(new Point(9, 9), list);
+
+        input = new String[]{" 9J", "9j ", " j9 ", "9J  "};
+        list = new LinkedList<>(Arrays.asList(input));
+        goodSingleInput.put(new Point(8, 9), list);
+
+        input = new String[]{" 10I", "I10 ", " i10 ", " 10i  "};
+        list = new LinkedList<>(Arrays.asList(input));
+        goodSingleInput.put(new Point(9, 8), list);
     }
 
     private static LinkedList<String> putBadSingleInputToList() {
@@ -116,22 +138,46 @@ class ReadCordTest {
         listPoints.add(new Point(2, 3));
         listPoints.add(new Point(2, 4));
         String[] goodInputPoints = new String[]{"3C 3D 3E", "3E  3d c3 ", "  d3   c3 e3"};
-        LinkedList<String> listInput = new LinkedList<>(Arrays.asList(goodInputPoints));
-        goodMultipleInput.put(listPoints, listInput);
+        LinkedList<String> listUserInput = new LinkedList<>(Arrays.asList(goodInputPoints));
+        goodMultipleInput.put(listPoints, listUserInput);
 
         listPoints = new LinkedList<>();
         listPoints.add(new Point(0, 0));
         listPoints.add(new Point(0, 1));
         listPoints.add(new Point(0, 2));
         goodInputPoints = new String[]{"1A 1B 1C", " 1c b1 1A", " b1  c1 1a"};
-        listInput = new LinkedList<>(Arrays.asList(goodInputPoints));
-        goodMultipleInput.put(listPoints, listInput);
+        listUserInput = new LinkedList<>(Arrays.asList(goodInputPoints));
+        goodMultipleInput.put(listPoints, listUserInput);
 
+        listPoints = new LinkedList<>();
+        listPoints.add(new Point(0, 7));
+        goodInputPoints = new String[]{"1h "};
+        listUserInput = new LinkedList<>(Arrays.asList(goodInputPoints));
+        goodMultipleInput.put(listPoints, listUserInput);
+
+        listPoints = new LinkedList<>();
+        listPoints.add(new Point(9, 6));
+        listPoints.add(new Point(9, 7));
+        listPoints.add(new Point(9, 8));
+        listPoints.add(new Point(9, 9));
+        goodInputPoints = new String[]{"10G 10H 10I 10J"," 10H G10  I10  10J","J10 I10 H10 10G"};
+        listUserInput = new LinkedList<>(Arrays.asList(goodInputPoints));
+        goodMultipleInput.put(listPoints, listUserInput);
+
+        listPoints = new LinkedList<>();
+        listPoints.add(new Point(9, 9));
+        listPoints.add(new Point(8, 9));
+        listPoints.add(new Point(7, 9));
+        listPoints.add(new Point(6, 9));
+        listPoints.add(new Point(5, 9));
+        goodInputPoints = new String[]{"7J 8J 9J 10J 6J"," 6J 7j 8j  9j j10  ","j10 9j j8 6j 7j  "};
+        listUserInput = new LinkedList<>(Arrays.asList(goodInputPoints));
+        goodMultipleInput.put(listPoints, listUserInput);
     }
 
     private static LinkedList<String> putBadMultipleInputToList() {
         String[] badUserInPut = {"a1 a2 a 3", "a1a1a1", "a1 b1 c2",
-                "c2 d2 b", "c4 44 c5", " _", "a1 a1 a1"};//a1 a1 a1 should return null not point,not IndexOutOfBounds for input: " "
+                "c2 d2 b", "c4 44 c5", " _", "a1 a1 a1"," "};//a1 a1 a1 should return null not point,not IndexOutOfBounds for input: " "
         return new LinkedList<>(Arrays.asList(badUserInPut));
     }
 
