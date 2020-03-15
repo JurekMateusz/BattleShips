@@ -4,14 +4,12 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
-import java.util.function.Predicate;
 
-
-public class GenerateShips {
+public class GenerateShip {
     private final int sizeMap;
     private final Random generator;
 
-    public GenerateShips(int sizeMap) {
+    public GenerateShip(int sizeMap) {
         this.sizeMap = sizeMap;
         generator = new Random(System.currentTimeMillis());
     }
@@ -19,9 +17,9 @@ public class GenerateShips {
     public void addShipToList(ArrayList<Ship> ships, int lengthShip) {
         int[] cordsInTab = new int[4];
         while (true) {
-            cordsInTab[0] = generator.nextInt(sizeMap); // x
-            cordsInTab[1] = generator.nextInt(sizeMap); //y
-            cordsInTab[2] = generator.nextInt(4); //direction
+            cordsInTab[0] = generator.nextInt(sizeMap); // x              1
+            cordsInTab[1] = generator.nextInt(sizeMap); //y             3    2
+            cordsInTab[2] = generator.nextInt(4); //direction      0
             cordsInTab[3] = lengthShip;
 
             int[] goodCords = didCordsCanBeIfNotChangeDirect(cordsInTab);
@@ -103,35 +101,40 @@ public class GenerateShips {
     }
 
     private boolean isPointsExist(ArrayList<Ship> allShips, ArrayList<Point> pointsToCheck) {
+        if (allShips.isEmpty()) {
+            return true;
+        }
         for (Ship ship : allShips) {
             ArrayList<Point> pointsOfShip = ship.getPoints();
             if (!Collections.disjoint(pointsOfShip, pointsToCheck)) {
-                return true;
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     private boolean isAlsoBadDirection(int[] cordsInTab) {
         switch (cordsInTab[2]) {
             case 0:
-                if (cordsInTab[1] + cordsInTab[3] - 1 >= sizeMap) {
-                    return true;
+                if (!(cordsInTab[1] + cordsInTab[3] - 1 >= sizeMap)) {
+                    return false;
                 }
+                break;
             case 1:
-                if (cordsInTab[1] - cordsInTab[3] + 1 < 0) {
-                    return true;
+                if (!(cordsInTab[1] - cordsInTab[3] + 1 < 0)) {
+                    return false;
                 }
+                break;
             case 2:
-                if (cordsInTab[0] + cordsInTab[3] - 1 >= sizeMap) {
-                    return true;
+                if (!(cordsInTab[0] + cordsInTab[3] - 1 >= sizeMap)) {
+                    return false;
                 }
+                break;
             case 3:
-                if (cordsInTab[0] - cordsInTab[3] + 1 < 0) {
-                    return true;
+                if (!(cordsInTab[0] - cordsInTab[3] + 1 < 0)) {
+                    return false;
                 }
-            default:
-                return false;
         }
+        return true;
     }
 }

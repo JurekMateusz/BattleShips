@@ -17,7 +17,7 @@ class ReadCordTest {
     static ReadCord readCord;
     static HashMap<Point, LinkedList<String>> goodSingleInput;
     static LinkedList<String> badSingleInput;
-    static HashMap<LinkedList<Point>,LinkedList<String>> goodMultipleInput;
+    static HashMap<LinkedList<Point>, LinkedList<String>> goodMultipleInput;
     static LinkedList<String> badMultipleInput;
 
     @BeforeAll
@@ -31,6 +31,16 @@ class ReadCordTest {
         putGoodMultipleInputToHashMap();
         badMultipleInput = putBadMultipleInputToList();
 
+    }
+
+    @Test
+    void changePointTest() {
+        assertEquals("7A", ReadCord.changePoint(new Point(6, 0)));
+        assertEquals("1A", ReadCord.changePoint(new Point(0, 0)));
+        assertEquals("5C", ReadCord.changePoint(new Point(4, 2)));
+        assertEquals("9A", ReadCord.changePoint(new Point(8, 0)));
+        assertEquals("9J", ReadCord.changePoint(new Point(8, 9)));
+        assertEquals("10J", ReadCord.changePoint(new Point(9, 9)));
     }
 
     @Test
@@ -53,18 +63,18 @@ class ReadCordTest {
 
     @Test
     void readMorePointsGoodInputTest() {
-       goodMultipleInput.forEach((pointLinkedList,stringLinkedList)->{
-           stringLinkedList.forEach(input ->{
-               putToSystemInput(input);
-               ArrayList<Point> list = readCord.readPoints();
-               list.removeAll(pointLinkedList);
-               assertTrue(list.isEmpty());
-           });
-       });
+        goodMultipleInput.forEach((pointLinkedList, stringLinkedList) -> {
+            stringLinkedList.forEach(input -> {
+                putToSystemInput(input);
+                ArrayList<Point> list = readCord.readPoints();
+                list.removeAll(pointLinkedList);
+                assertTrue(list.isEmpty());
+            });
+        });
     }
 
     @Test
-    void readMorePointsShouldReturnNullForBadMultipleInput(){
+    void readMorePointsShouldReturnNullForBadMultipleInput() {
         badMultipleInput.forEach(input -> {
             putToSystemInput(input);
             assertNull(readCord.readPoints());
@@ -99,30 +109,33 @@ class ReadCordTest {
         };
         return new LinkedList<>(Arrays.asList(badUserInput));
     }
-    private static void putGoodMultipleInputToHashMap(){
+
+    private static void putGoodMultipleInputToHashMap() {
         LinkedList<Point> listPoints = new LinkedList<>();
-        listPoints.add(new Point(2,2));
-        listPoints.add(new Point(2,3));
-        listPoints.add(new Point(2,4));
-        String[] goodInputPoints = new String[]{"3C 3D 3E","3E  3d c3 ","  d3   c3 e3"};
+        listPoints.add(new Point(2, 2));
+        listPoints.add(new Point(2, 3));
+        listPoints.add(new Point(2, 4));
+        String[] goodInputPoints = new String[]{"3C 3D 3E", "3E  3d c3 ", "  d3   c3 e3"};
         LinkedList<String> listInput = new LinkedList<>(Arrays.asList(goodInputPoints));
-        goodMultipleInput.put(listPoints,listInput);
+        goodMultipleInput.put(listPoints, listInput);
 
         listPoints = new LinkedList<>();
-        listPoints.add(new Point(0,0));
-        listPoints.add(new Point(0,1));
-        listPoints.add(new Point(0,2));
-        goodInputPoints = new String[]{"1A 1B 1C"," 1c b1 1A"," b1  c1 1a"};
+        listPoints.add(new Point(0, 0));
+        listPoints.add(new Point(0, 1));
+        listPoints.add(new Point(0, 2));
+        goodInputPoints = new String[]{"1A 1B 1C", " 1c b1 1A", " b1  c1 1a"};
         listInput = new LinkedList<>(Arrays.asList(goodInputPoints));
-        goodMultipleInput.put(listPoints,listInput);
+        goodMultipleInput.put(listPoints, listInput);
 
     }
-    private static LinkedList<String> putBadMultipleInputToList(){
-        String[] badUserInPut = {"a1 a2 a 3","a1a1a1","a1 b1 c2",
-                "c2 d2 b","c4 44 c5"," _","a1 a1 a1"};//a1 a1 a1 should return null not point,not IndexOutOfBounds for input: " "
+
+    private static LinkedList<String> putBadMultipleInputToList() {
+        String[] badUserInPut = {"a1 a2 a 3", "a1a1a1", "a1 b1 c2",
+                "c2 d2 b", "c4 44 c5", " _", "a1 a1 a1"};//a1 a1 a1 should return null not point,not IndexOutOfBounds for input: " "
         return new LinkedList<>(Arrays.asList(badUserInPut));
     }
-    private void putToSystemInput(String input){
+
+    private void putToSystemInput(String input) {
         InputStream inputStream = new ByteArrayInputStream(input.getBytes());
         System.setIn(inputStream);
     }

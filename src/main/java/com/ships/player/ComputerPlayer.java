@@ -1,6 +1,6 @@
 package com.ships.player;
 
-import com.ships.ship.GenerateShips;
+import com.ships.ship.GenerateShip;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -56,15 +56,15 @@ public class ComputerPlayer extends Player {
     }
 
     public void putShips() {
-        GenerateShips generateShips = new GenerateShips(sizeMap);
+        GenerateShip generateShip = new GenerateShip(sizeMap);
 
         int lengthShip = 6;
-        generateShips.addShipToList(ships, lengthShip);
+        generateShip.addShipToList(ships, lengthShip);
 //Should give 2x 4ship ,2x3ship 2x 2ship
         for (int lengthShips = 2; lengthShips < 5; lengthShips++) {
             int numberOfShipGivenLength = 2;
             while (numberOfShipGivenLength-- > 0)
-                generateShips.addShipToList(ships, lengthShip);
+                generateShip.addShipToList(ships, lengthShip);
         }
     }
 

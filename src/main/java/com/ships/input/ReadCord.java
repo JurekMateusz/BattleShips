@@ -13,7 +13,7 @@ public class ReadCord {
         String txtBufor;
         Scanner scanner = new Scanner(System.in);
         txtBufor = scanner.nextLine();
-        makeGoodImput(txtBufor, cordsInTab);
+        makeGoodInput(txtBufor, cordsInTab);
         if (cordsInTab[2] != 3 || cordsInTab[3] != 2) {
             return null;
         }
@@ -30,7 +30,7 @@ public class ReadCord {
             if (txt.isEmpty()) {
                 continue;
             }
-            makeGoodImput(txt, cordsInTab);
+            makeGoodInput(txt, cordsInTab);
             if (cordsInTab[2] != 3 || cordsInTab[3] != 2) {
                 return null;
             }
@@ -49,7 +49,7 @@ public class ReadCord {
         return result;
     }
 
-    private void makeGoodImput(String txt, int[] tabCharacter) {
+    private void makeGoodInput(String txt, int[] tabCharacter) {
         txt = txt.toUpperCase();
         txt = txt.trim();
         for (int i = 0; i < txt.length(); i++) {
@@ -83,6 +83,12 @@ public class ReadCord {
                 return 5;
             case 'G':
                 return 6;
+            case 'H':
+                return 7;
+            case 'I':
+                return 8;
+            case 'J':
+                return 9;
             default:
                 return -1;
         }
@@ -104,6 +110,12 @@ public class ReadCord {
                 return 'F';
             case 6:
                 return 'G';
+            case 7:
+                return 'H';
+            case 8:
+                return 'I';
+            case 9:
+                return 'J';
             default:
                 return '?';
         }
