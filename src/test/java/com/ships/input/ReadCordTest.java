@@ -81,16 +81,6 @@ class ReadCordTest {
         });
     }
 
-//    @Test
-//    void test() { //10I", "I10 ", " i10 ", " 10i  "
-//        InputStream inputStream = new ByteArrayInputStream("A6 A6 6A".getBytes());
-//        System.setIn(inputStream);
-//        ArrayList<Point> ree= readCord.readPoints();
-//        inputStream = new ByteArrayInputStream(" 10i ".getBytes());
-//        System.setIn(inputStream);
-//       assertEquals( new Point(9, 8),readCord.readPoint());
-//    }
-
     private static void putGoodInputToHashMap() {
         String[] input = new String[]{"1a", "a1", "  1A", "A1  "};
         LinkedList<String> list = new LinkedList<>(Arrays.asList(input));

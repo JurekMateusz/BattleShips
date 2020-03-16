@@ -1,9 +1,13 @@
 package com.ships.input;
 
+import com.ships.ship.Ship;
+
 import java.awt.Point;
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class ReadCord {
+
     public static String changePoint(Point point) {
         return ("" + (point.x + 1) + changeNumberTocharacter(point.y));
     }
@@ -21,6 +25,7 @@ public class ReadCord {
 
     public ArrayList<Point> readPoints() {
         int[] cordsInTab = new int[4];//respectively x ,y ,tab[2] and tab[3] control good imput
+        ArrayPoints arrayPoints = new ArrayPoints();
         ArrayList<Point> result = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         String bufor = scanner.nextLine();
@@ -38,8 +43,7 @@ public class ReadCord {
                 cordsInTab[i] = 0;
             }
         }
-
-        if (!correctPoints(result)) {
+        if (arrayPoints.areString(result) && arrayPoints.areInOneLine(result)) {
             return null;
         }
         return result;
@@ -120,62 +124,5 @@ public class ReadCord {
             default:
                 return '?';
         }
-    }
-
-    private boolean correctPoints(ArrayList<Point> arrayList) {
-        //this method check points is correct(in one line).  5A 5B 5C -correct , 5A 6D A1 -NOT
-        if (arrayList.size() == 1) {
-            return true;
-        }
-        if(arrayList.isEmpty()){
-            return false;
-        }
-        boolean sortByX = true;
-        boolean sortByY = true;
-
-        int x = (int) arrayList.get(0).getX();
-        int y = (int) arrayList.get(0).getY();
-        for (Point point : arrayList) {
-            if (x != point.getX()) {
-                sortByY = false;
-            }
-            if (y != point.getY()) {
-                sortByX = false;
-            }
-        }
-        if (!sortByX && !sortByY) {
-            return false;
-        }
-        if (sortByX && sortByY) {
-            return false;
-        }
-        if (sortByX) {
-            Collections.sort(arrayList, new Comparator<Point>() {
-                @Override
-                public int compare(Point o1, Point o2) {
-                    return Integer.compare((int) o1.getX(), (int) o2.getX());
-                }
-            });
-        } else {
-            Collections.sort(arrayList, new Comparator<Point>() {
-                public int compare(Point o1, Point o2) {
-                    return Integer.compare((int) o1.getY(), (int) o2.getY());
-                }
-            });
-        }
-        x = (int) arrayList.get(0).getX();
-        y = (int) arrayList.get(0).getY();
-        for (int i = 0; i < arrayList.size(); i++) {
-            if (sortByX) {
-                if (x++ != arrayList.get(i).getX()) {
-                    return false;
-                }
-            } else {
-                if (y++ != arrayList.get(i).getY()) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 }

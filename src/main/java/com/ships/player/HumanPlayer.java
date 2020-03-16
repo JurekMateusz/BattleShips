@@ -45,7 +45,7 @@ public class HumanPlayer extends Player {
                 System.out.print("too short imput, missing " + (lengthShip - points.size()) + " point/s");
                 continue;
             }
-            if (!isPointsExist(points)) {
+            if (!isPointsExist(points)) {//add not bordering method
                 ships.add(new Ship(points));
                 i++;
             } else {
