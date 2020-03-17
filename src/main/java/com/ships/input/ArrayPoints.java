@@ -62,6 +62,15 @@ public class ArrayPoints {
         }
         return true;
     }
+    public char pointsInLine(ArrayList<Point> points){
+        if (isInLine(points, 'X')) {
+            return 'X';
+        }
+        if (isInLine(points, 'Y')) {
+            return 'Y';
+        }
+        return '?';
+    }
 
     private boolean isNecessary(ArrayList<Point> points) {
         boolean sortByX = true;

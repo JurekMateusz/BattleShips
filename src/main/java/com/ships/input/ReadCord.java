@@ -1,15 +1,12 @@
 package com.ships.input;
 
-import com.ships.ship.Ship;
-
 import java.awt.Point;
-import java.lang.reflect.Array;
 import java.util.*;
 
 public class ReadCord {
 
     public static String changePoint(Point point) {
-        return ("" + (point.x + 1) + changeNumberTocharacter(point.y));
+        return ("" + (point.x + 1) + changeNumberToCharacter(point.y));
     }
 
     public Point readPoint() {
@@ -43,7 +40,7 @@ public class ReadCord {
                 cordsInTab[i] = 0;
             }
         }
-        if (arrayPoints.areString(result) && arrayPoints.areInOneLine(result)) {
+        if (!arrayPoints.areString(result) && !arrayPoints.areInOneLine(result)) {
             return null;
         }
         return result;
@@ -99,7 +96,7 @@ public class ReadCord {
         }
     }
 
-    private static char changeNumberTocharacter(int number) {
+    private static char changeNumberToCharacter(int number) {
         switch (number) {
             case 0:
                 return 'A';

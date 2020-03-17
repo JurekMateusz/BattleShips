@@ -1,20 +1,23 @@
 package com.ships.ship;
 
+import com.ships.input.ArrayPoints;
+
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-public class GenerateShip {
+public class ShipsGenerator {
     private final int sizeMap;
     private final Random generator;
 
-    public GenerateShip(int sizeMap) {
+    public ShipsGenerator(int sizeMap) {
         this.sizeMap = sizeMap;
         generator = new Random(System.currentTimeMillis());
     }
 
     public void addShipToList(ArrayList<Ship> ships, int lengthShip) {
+        ArrayPoints arrayPoints = new ArrayPoints();
         int[] cordsInTab = new int[4];
         while (true) {
             cordsInTab[0] = generator.nextInt(sizeMap); // x              1
@@ -26,12 +29,12 @@ public class GenerateShip {
             if (goodCords[2] == -1) {
                 continue;
             }
-            ArrayList<Point> Points = makePoints(goodCords);
+            ArrayList<Point> points = makePoints(goodCords);
 
-            if (!isPointsExist(ships, Points)) {
+            if (!isPointsExist(ships, points) || !arrayPoints.areNotBordering(points, ships)) {
                 continue;
             }
-            ships.add(new Ship(Points));
+            ships.add(new Ship(points));
             return;
         }
     }

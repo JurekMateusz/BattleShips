@@ -10,13 +10,13 @@ public class ShipGame {
                 newLine + "Type in number  \"1\"-\"7\" and charakter: \"A\"-\"G\"" +
                 newLine + "For example 1A 2A 3A");
 
-        mainGame.initiateMap();
+//        mainGame.initiateMap();
 
         System.out.println(newLine + "you successfully put your ships on map.Now you can compete with Computer." +
                 newLine + "Enter imput like: \"2G\" or \"5F\"" +
                 newLine + "'1' = hit ship\t\t'x' = mishit");
 
-        mainGame.prepareMap();
+//        mainGame.prepareMap();
         mainGame.play();
     }
 }

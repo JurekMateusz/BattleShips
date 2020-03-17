@@ -6,14 +6,14 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-class GenerateShipTest {
-    private static GenerateShip generateShip;
+class ShipsGeneratorTest {
+    private static ShipsGenerator shipsGenerator;
     private static ArrayList<Ship> generatedShips;
     private char[][] map = new char[10][10];
 
     @BeforeAll
     static void setUp() {
-        generateShip = new GenerateShip(10);
+        shipsGenerator = new ShipsGenerator(10);
         generatedShips = new ArrayList<>();
     }
 
@@ -23,13 +23,13 @@ class GenerateShipTest {
         clearMap();
     }
 
-    @RepeatedTest(100)
+    @RepeatedTest(10)
     void addShipToList() {
-        generateShip.addShipToList(generatedShips, 6);
+        shipsGenerator.addShipToList(generatedShips, 6);
         for (int lengthShips = 2; lengthShips < 5; lengthShips++) {
             int numberOfShipGivenLength = 2;
             while (numberOfShipGivenLength-- > 0) {
-                generateShip.addShipToList(generatedShips, lengthShips);
+                shipsGenerator.addShipToList(generatedShips, lengthShips);
             }
         }
         testGenerateShips();

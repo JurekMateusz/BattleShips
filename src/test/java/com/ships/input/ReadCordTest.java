@@ -75,10 +75,10 @@ class ReadCordTest {
 
     @Test
     void readMorePointsShouldReturnNullForBadMultipleInput() {
-        badMultipleInput.forEach(input -> {
+        for(String input:badMultipleInput){
             putToSystemInput(input);
             assertNull(readCord.readPoints());
-        });
+        }
     }
 
     private static void putGoodInputToHashMap() {
@@ -167,7 +167,7 @@ class ReadCordTest {
 
     private static LinkedList<String> putBadMultipleInputToList() {
         String[] badUserInPut = {"a1 a2 a 3", "a1a1a1", "a1 b1 c2",
-                "c2 d2 b", "c4 44 c5", " _", "a1 a1 a1"," "};//a1 a1 a1 should return null not point,not IndexOutOfBounds for input: " "
+                "c2 d2 b", "c4 44 c5", " _", "a1 a1 a1"," "};
         return new LinkedList<>(Arrays.asList(badUserInPut));
     }
 
