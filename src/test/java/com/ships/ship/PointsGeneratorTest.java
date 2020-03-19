@@ -3,13 +3,10 @@ package com.ships.ship;
 import com.ships.board.Board;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.RepeatedTest;
-import org.junit.jupiter.api.Test;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashSet;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class PointsGeneratorTest {
     private static PointsGenerator pointsGenerator;
@@ -30,7 +27,7 @@ class PointsGeneratorTest {
 
     }
 
-    @RepeatedTest(10)
+//    @RepeatedTest(1)
     void generatePoint() {
 
         board.printBoard(ships);
@@ -58,19 +55,33 @@ class PointsGeneratorTest {
                     flag = false;
                 }
             }
-        //    print(tab);
+//            print(tab);
         }
     }
 
     private static void generateShips() {
         ShipsGenerator shipsGenerator = new ShipsGenerator(10);
-        shipsGenerator.addShipToList(ships, 6);
-        for (int lengthShips = 2; lengthShips < 5; lengthShips++) {
-            int numberOfShipGivenLength = 2;
-            while (numberOfShipGivenLength-- > 0) {
-                shipsGenerator.addShipToList(ships, lengthShips);
-            }
-        }
+
+        shipsGenerator.addShipToList(ships, 4);
+
+        shipsGenerator.addShipToList(ships, 3);
+        shipsGenerator.addShipToList(ships, 3);
+
+        shipsGenerator.addShipToList(ships, 2);
+        shipsGenerator.addShipToList(ships, 2);
+        shipsGenerator.addShipToList(ships, 2);
+
+        shipsGenerator.addShipToList(ships, 1);
+        shipsGenerator.addShipToList(ships, 1);
+        shipsGenerator.addShipToList(ships, 1);
+        shipsGenerator.addShipToList(ships, 1);
+
+//        for (int lengthShips = 2; lengthShips < 5; lengthShips++) {
+//            int numberOfShipGivenLength = 2;
+//            while (numberOfShipGivenLength-- > 0) {
+//                shipsGenerator.addShipToList(ships, lengthShips);
+//            }
+//        }
     }
 
     private void print(char[][] board) {

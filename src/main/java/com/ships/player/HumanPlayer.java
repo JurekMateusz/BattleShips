@@ -1,14 +1,11 @@
 package com.ships.player;
 
-import com.ships.board.Board;
-import com.ships.ship.Ship;
 import com.ships.input.ReadCord;
 
 import java.awt.Point;
-import java.util.ArrayList;
 
 public class HumanPlayer extends AbstractPlayer {
-    private int lengthShip = 3;
+
     private ReadCord reader = new ReadCord();
 
     public HumanPlayer(int sizeMap) {
@@ -16,59 +13,54 @@ public class HumanPlayer extends AbstractPlayer {
     }
 
     @Override
+    public void putShips() {
+        super.putShips();    //TODO user can put his configuration of ship,computer will adopt
+        System.out.println("   Your generated ships on board:");
+        board.printBoard(ships);
+    }
+
+
+    @Override
     public Point selectPointToShoot() {
+        if (sunkStatus) {
+            pointsGenerator.resetDependency();
+            sunkStatus = false;
+            // lastShotStatus = false;
+        }
         while (true) {
-            System.out.print("Type Cord: ");
+            if (lastShotStatus) {
+                System.out.print("You hit " + opponent.getName() + " ship ,type next point:");
+            } else {
+                System.out.print("Type Cord: ");
+            }
             Point point = reader.readPoint();
             if (point == null) {
                 System.out.println("Bad imput :[");
                 continue;
             }
-            //TODO if point repeat :continue
+            if (hitPoints.contains(point) || missPoints.contains(point)) {
+                System.out.println("You already typed this point.Type another one :)");
+                continue;
+            }
             return point;
         }
     }
+
+    @Override
+    public void drawBoard() {
+        System.out.println("\tYour Board:");
+        System.out.flush();
+        super.drawBoard();
+    }
+
     @Override
     public void wins() {
+        System.out.println("\t You won this game!!" +
+                System.lineSeparator() + "\tYour board:\t\t\t\t" + opponent.getName() +
+                " board:");
 
+        board.printTwoBoards(missPoints,opponent.getShips() , opponent.getMissPoints(), ships);
     }
-    @Override
-    public void putShips() {
-        int numbersOfShips = 3;
-        int i = 0;
-        ArrayList<Point> points;
-
-         Board board = new Board(sizeMap);
-//         board.printBoard();
-        while (i < numbersOfShips) {
-            System.out.print(System.lineSeparator() + "Type cords for ship nr " + (i + 1) + " : ");
-            points = reader.readPoints();
-            if (points == null) {
-                System.out.print("Bad imput :[ try something like this:\"A1 B1 C1\" ");
-                continue;
-            }
-            if (points.size() < lengthShip) {
-                System.out.print("too short imput, missing " + (lengthShip - points.size()) + " point/s");
-                continue;
-            }
-            if (!isPointsExist(points)) {//add not bordering method
-                ships.add(new Ship(points));
-                i++;
-            } else {
-                System.out.print("\tYou already typed this field/fields. Type another one :)");
-            }
-            points.clear();
-            System.out.print("   Your Map:");
-            board.printBoard(ships);
-        }
-    }
-
-    @Override
-    public void drawBoards() {
-
-    }
-
-
 }
 
 

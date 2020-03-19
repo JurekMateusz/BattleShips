@@ -51,13 +51,15 @@ public class PointsGenerator {
     public void resetDependency() {
         hitPoints.clear();
         firstTimeComeToSecondStage = true;
-        setAllDrectionsTrue();
+        setAllDirectionsTrue();
         clearTableOfGeneratePoints();
     }
 
     private Point choosePointFirstStage() {
         result = new Point();
         do {
+//            result.x =generator.nextInt(sizeBoard);
+//            result.y =generator.nextInt(sizeBoard); //TODO
             if ((++functionCallNumber % 2) == 0) {
                 result.x = evenNumbers[generator.nextInt(evenNumbers.length)];
                 result.y = oddNumbers[generator.nextInt(oddNumbers.length)];
@@ -104,7 +106,7 @@ public class PointsGenerator {
         }
     }
 
-    private void setAllDrectionsTrue() {
+    private void setAllDirectionsTrue() {
         helpDirectionShot[0] = true;
         helpDirectionShot[1] = true;
         helpDirectionShot[2] = true;

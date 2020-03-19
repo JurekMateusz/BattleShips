@@ -3,21 +3,28 @@ package com.ships.player;
 import com.ships.board.Board;
 import com.ships.ship.PointsGenerator;
 import com.ships.ship.Ship;
+import com.ships.ship.ShipsGenerator;
 
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public abstract class AbstractPlayer implements Player {
+    protected String name = "You";
+
+    protected PointsGenerator pointsGenerator;
+    protected Board board;
+
     protected ArrayList<Ship> ships;
     protected ArrayList<Point> hitPoints;
     protected ArrayList<Point> missPoints;
 
+    protected int sizeMap;
+
     protected Player opponent;
 
-    protected boolean sunkShip = false;
-    protected int sizeMap;
-    protected Board board;
+    protected boolean sunkStatus = false;
+    protected boolean lastShotStatus = false;
 
     AbstractPlayer(int sizeMap) {
         this.sizeMap = sizeMap;
@@ -25,66 +32,98 @@ public abstract class AbstractPlayer implements Player {
         ships = new ArrayList<>();
         hitPoints = new ArrayList<>();
         missPoints = new ArrayList<>();
+        pointsGenerator = new PointsGenerator(sizeMap);
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public boolean didShipWasSunk() {
+        return sunkStatus;
+    }
+
+    @Override
     public void setOpponent(Player opponent) {
         this.opponent = opponent;
     }
 
     @Override
-    public ArrayList<Ship> getShips(){
+    public ArrayList<Ship> getShips() {
         return ships;
     }
+
     @Override
-    public boolean shootAt(Point point, Player otherPlayer) {
-        ArrayList<Ship> ships = otherPlayer.getShips();
+    public ArrayList<Point> getMissPoints() {
+        return missPoints;
+    }
+
+    @Override
+    public Point selectPointToShoot() {
+        if (sunkStatus) {
+            pointsGenerator.resetDependency();
+            sunkStatus = false;
+        }
+        return pointsGenerator.generatePoint(lastShotStatus);
+    }
+
+    @Override
+    public boolean shootAt(Point point) {
+        ArrayList<Ship> ships = opponent.getShips();
         for (Ship ship : ships) {
+            if (ship.getShottedStatus()) {
+                continue;
+            }
             ArrayList<Point> shipPoints = ship.getPoints();
             if (shipPoints.contains(point)) {
                 hitPoints.add(point);
-                return true;
-            }
-        }
-        missPoints.add(point);
-        return false;
-    }
-    @Override
-    public boolean loose() {
-        ArrayList<Ship> opponentShips = opponent.getShips();
-        return opponentShips.containsAll(hitPoints);
-    }
-
-    public boolean isSunkShip() {
-        return sunkShip;
-    }
-
-    public void setSunkShip(boolean bool) {
-        sunkShip = bool;
-    }
-
-
-    public boolean allDrowned() {
-        return ships.isEmpty();
-    }
-
-    public boolean isShottedSetMapAndIsSunk(Point pointShot) {// tutaj skończyłem
-        ArrayList<Point> listPointsOfShip;
-        for (Ship ship : ships) {
-            listPointsOfShip = ship.getPoints();
-//            Map[pointShot.y][pointShot.x] = 'x';
-            if (listPointsOfShip.contains(pointShot)) {
-//                Map[pointShot.y][pointShot.x] = '1';
-                listPointsOfShip.remove(pointShot);
-                if (listPointsOfShip.isEmpty()) {
-                    sunkShip = true;
-                    ships.remove(ship);
+                lastShotStatus = true;
+                if (hitPoints.containsAll(shipPoints) ){
+                    ship.setShottedStatus(true);
+                    sunkStatus = true;
+                    lastShotStatus = false;
                 }
                 return true;
             }
         }
+        lastShotStatus = false;
+        missPoints.add(point);
         return false;
     }
 
+    @Override
+    public void putShips() {
+        ShipsGenerator shipsGenerator = new ShipsGenerator(sizeMap);
+        shipsGenerator.addShipToList(ships, 6);
+        for (int lengthShips = 2; lengthShips < 5; lengthShips++) {
+            int numberOfShipGivenLength = 2;
+            while (numberOfShipGivenLength-- > 0) {
+                shipsGenerator.addShipToList(ships, lengthShips);
+            }
+        }
+    }
+
+    @Override
+    public boolean loose() {
+        for (Ship ship :ships) {
+            if(ship.getShottedStatus() == false){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void drawBoard() {
+        board.printBoard(missPoints, hitPoints);
+    }
 
     protected boolean isPointsExist(ArrayList<Point> points) {
         for (Ship v : ships) {
