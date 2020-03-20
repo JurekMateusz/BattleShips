@@ -18,6 +18,8 @@ public class Board {
 
     public void printBoard(ArrayList<?> shipsPoints) {
         if (shipsPoints.isEmpty()) {
+            initiateBoard(board);
+            print();
             return;
         }
         Object firstElement = shipsPoints.get(0);
@@ -118,5 +120,6 @@ public class Board {
         }
         System.out.println();
     }
+
 }
 

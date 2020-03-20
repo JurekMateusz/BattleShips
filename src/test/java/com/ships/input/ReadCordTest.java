@@ -3,10 +3,7 @@ package com.ships.input;
 import java.awt.*;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 
 import org.junit.jupiter.api.*;
 
@@ -45,12 +42,20 @@ class ReadCordTest {
 
     @Test
     void readPointMethodShouldAssertTrueForUserInput() {
-        goodSingleInput.forEach((point, stringLinkedList) -> {
-            stringLinkedList.forEach(input -> {
+//        goodSingleInput.forEach((point, stringLinkedList) -> {
+//            stringLinkedList.forEach(input -> {
+//                putToSystemInput(input);
+//                assertEquals(point, readCord.readPoint());
+//            });
+//        });
+        for (Map.Entry<Point, LinkedList<String>> entry : goodSingleInput.entrySet()) {
+            for (String input : entry.getValue()) {
                 putToSystemInput(input);
-                assertEquals(point, readCord.readPoint());
-            });
-        });
+                Point result = readCord.readPoint();
+                Point expected = entry.getKey();
+                assertEquals(expected, result);
+            }
+        }
     }
 
     @Test
@@ -71,13 +76,23 @@ class ReadCordTest {
                 assertTrue(list.isEmpty());
             });
         });
+//        for (Map.Entry<LinkedList<Point>,LinkedList<String>> entry : goodMultipleInput.entrySet()){
+//            for(String input:entry.getValue()){
+//                putToSystemInput(input);
+//                ArrayList<Point> list = readCord.readPoints();
+//                list.removeAll(entry.getKey());
+//                assertTrue(list.isEmpty());
+//            }
+//        }
     }
+
 
     @Test
     void readMorePointsShouldReturnNullForBadMultipleInput() {
-        for(String input:badMultipleInput){
+        for (String input : badMultipleInput) {
             putToSystemInput(input);
-            assertNull(readCord.readPoints());
+            ArrayList<Point> arrayList = readCord.readPoints();
+            assertNull(arrayList);
         }
     }
 
@@ -150,7 +165,7 @@ class ReadCordTest {
         listPoints.add(new Point(9, 7));
         listPoints.add(new Point(9, 8));
         listPoints.add(new Point(9, 9));
-        goodInputPoints = new String[]{"10G 10H 10I 10J"," 10H G10  I10  10J","J10 I10 H10 10G"};
+        goodInputPoints = new String[]{"10G 10H 10I 10J", " 10H G10  I10  10J", "J10 I10 H10 10G"};
         listUserInput = new LinkedList<>(Arrays.asList(goodInputPoints));
         goodMultipleInput.put(listPoints, listUserInput);
 
@@ -160,14 +175,14 @@ class ReadCordTest {
         listPoints.add(new Point(7, 9));
         listPoints.add(new Point(6, 9));
         listPoints.add(new Point(5, 9));
-        goodInputPoints = new String[]{"7J 8J 9J 10J 6J"," 6J 7j 8j  9j j10  ","j10 9j j8 6j 7j  "};
+        goodInputPoints = new String[]{"7J 8J 9J 10J 6J", " 6J 7j 8j  9j j10  ", "j10 9j j8 6j 7j  "};
         listUserInput = new LinkedList<>(Arrays.asList(goodInputPoints));
         goodMultipleInput.put(listPoints, listUserInput);
     }
 
     private static LinkedList<String> putBadMultipleInputToList() {
         String[] badUserInPut = {"a1 a2 a 3", "a1a1a1", "a1 b1 c2",
-                "c2 d2 b", "c4 44 c5", " _", "a1 a1 a1"," "};
+                "c2 d2 b", "c4 44 c5", " _", "a1 a1 a1", " "};
         return new LinkedList<>(Arrays.asList(badUserInPut));
     }
 

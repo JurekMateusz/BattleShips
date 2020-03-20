@@ -31,7 +31,7 @@ public class ShipsGenerator {
             }
             ArrayList<Point> points = makePoints(goodCords);
 
-            if (!isPointsExist(ships, points) || !arrayPoints.areNotBordering(points, ships)) {
+            if (!isPointsExist(ships, points) || arrayPoints.areBordering(points, ships)) {
                 continue;
             }
             ships.add(new Ship(points));

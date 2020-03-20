@@ -15,13 +15,8 @@ public class ArrayPoints {
             return true;
         }
         ArrayList<Point> copyPoints = new ArrayList<>(points);
-        if (isNecessary(copyPoints)) {
-            if (isInLine(copyPoints, 'X')) {
-                return true;
-            }
-            if (isInLine(copyPoints, 'Y')) {
-                return true;
-            }
+        if (isAnyLine(copyPoints)) {
+            return true;
         }
         return false;
     }
@@ -42,27 +37,29 @@ public class ArrayPoints {
             return true;
         }
         sort(copyPoints, 'Y');
-        if (isGood(copyPoints, 'Y')) {
-            return true;
-        }
-        return false;
+        return isGood(copyPoints, 'Y');
     }
 
-    public boolean areNotBordering(ArrayList<Point> points,ArrayList<Ship> ships) {
+    public boolean areBordering(ArrayList<Point> points, ArrayList<Ship> ships) {
         if (badGivenParametr(points) || ships == null) {
+            return false;
+        }
+        if (ships.size() == 0) {
             return false;
         }
         ArrayList<Ship> copyWithPoints = new ArrayList<>(ships);
 
         ArrayList<Point> borderingPoints = makeBorderingPointsToShip(copyWithPoints);
-        for (Point point :points) {
-            if(borderingPoints.contains(point)){
-                return  false;
+
+        for (Point point : points) {
+            if (borderingPoints.contains(point)) {
+                return true;
             }
         }
-        return true;
+        return false;
     }
-    public char pointsInLine(ArrayList<Point> points){
+
+    public char pointsInLine(ArrayList<Point> points) {
         if (isInLine(points, 'X')) {
             return 'X';
         }
@@ -72,7 +69,7 @@ public class ArrayPoints {
         return '?';
     }
 
-    private boolean isNecessary(ArrayList<Point> points) {
+    private boolean isAnyLine(ArrayList<Point> points) {
         boolean sortByX = true;
         boolean sortByY = true;
 
@@ -86,10 +83,7 @@ public class ArrayPoints {
                 sortByX = false;
             }
         }
-        if ((!sortByX && !sortByY) || (sortByX && sortByY)) {
-            return false;
-        }
-        return true;
+        return (sortByX || sortByY) && (!sortByX || !sortByY);
     }
 
     private boolean badGivenParametr(ArrayList<Point> points) {
@@ -153,6 +147,8 @@ public class ArrayPoints {
         for (Ship ship : ships) {
             ArrayList<Point> points = ship.getPoints();
             ArrayList<Point> copyPoints = new ArrayList<>(points);
+            result.addAll(copyPoints);
+
             if (isInLine(copyPoints, 'X')) {
                 sort(copyPoints, 'Y');
                 sortBy = 'Y';
@@ -163,40 +159,40 @@ public class ArrayPoints {
             Point minPoint = new Point(copyPoints.get(0));
             Point maxPoint = new Point(copyPoints.get(points.size() - 1));
             if (sortBy == 'X') {
-                minPoint.setLocation(minPoint.getX()-1,minPoint.getY());
+                minPoint.setLocation(minPoint.getX() - 1, minPoint.getY());
                 result.add(new Point(minPoint));
-                maxPoint.setLocation(maxPoint.getX()+1,maxPoint.getY());
+                maxPoint.setLocation(maxPoint.getX() + 1, maxPoint.getY());
                 result.add(new Point(maxPoint));
 
                 Point bufMinPoint = new Point(minPoint);
-                minPoint.setLocation(minPoint.getX(),minPoint.getY()-1);
-                while(minPoint.getX() <= maxPoint.getX()){
+                minPoint.setLocation(minPoint.getX(), minPoint.getY() - 1);
+                while (minPoint.getX() <= maxPoint.getX()) {
                     result.add(new Point(minPoint));
-                    minPoint.setLocation(minPoint.getX()+1,minPoint.getY());
+                    minPoint.setLocation(minPoint.getX() + 1, minPoint.getY());
                 }
 
-                bufMinPoint.setLocation(bufMinPoint.getX(),bufMinPoint.getY()+1);
-                while(bufMinPoint.getX() <= maxPoint.getX()){
+                bufMinPoint.setLocation(bufMinPoint.getX(), bufMinPoint.getY() + 1);
+                while (bufMinPoint.getX() <= maxPoint.getX()) {
                     result.add(new Point(bufMinPoint));
-                    bufMinPoint.setLocation(bufMinPoint.getX()+1,bufMinPoint.getY() );
+                    bufMinPoint.setLocation(bufMinPoint.getX() + 1, bufMinPoint.getY());
                 }
             } else {
-                minPoint.setLocation(minPoint.getX(),minPoint.getY()-1);
+                minPoint.setLocation(minPoint.getX(), minPoint.getY() - 1);
                 result.add(new Point(minPoint));
-                maxPoint.setLocation(maxPoint.getX(),maxPoint.getY()+1);
+                maxPoint.setLocation(maxPoint.getX(), maxPoint.getY() + 1);
                 result.add(new Point(maxPoint));
 
                 Point bufMinPoint = new Point(minPoint);
-                minPoint.setLocation(minPoint.getX()-1,minPoint.getY());
-                while(minPoint.getY() <= maxPoint.getY()){
+                minPoint.setLocation(minPoint.getX() - 1, minPoint.getY());
+                while (minPoint.getY() <= maxPoint.getY()) {
                     result.add(new Point(minPoint));
-                    minPoint.setLocation(minPoint.getX(),minPoint.getY() +1);
+                    minPoint.setLocation(minPoint.getX(), minPoint.getY() + 1);
                 }
 
-                bufMinPoint.setLocation(bufMinPoint.getX()+1,bufMinPoint.getY());
-                while(bufMinPoint.getY() <= maxPoint.getY()){
+                bufMinPoint.setLocation(bufMinPoint.getX() + 1, bufMinPoint.getY());
+                while (bufMinPoint.getY() <= maxPoint.getY()) {
                     result.add(new Point(bufMinPoint));
-                    bufMinPoint.setLocation(bufMinPoint.getX(),bufMinPoint.getY() +1);
+                    bufMinPoint.setLocation(bufMinPoint.getX(), bufMinPoint.getY() + 1);
                 }
             }
         }

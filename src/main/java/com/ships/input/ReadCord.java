@@ -10,52 +10,73 @@ public class ReadCord {
     }
 
     public Point readPoint() {
-        int[] cordsInTab = new int[4]; //respectively x ,y ,tab[2] and tab[3] control good imput
+        int[] cordsInTab = new int[4];
+
         Scanner scanner = new Scanner(System.in);
-        String txtBufor = scanner.nextLine().trim();
-        makeGoodInput(txtBufor, cordsInTab);
-        if (cordsInTab[2] != 3 || cordsInTab[3] != 2) {
+        String txtBufor = scanner.nextLine();
+
+        txtBufor = txtBufor.trim().toUpperCase();
+        makeAndCheckInput(txtBufor, cordsInTab);
+
+        if (correctInput(cordsInTab)) {
             return null;
         }
         return new Point(cordsInTab[1], cordsInTab[0]);
     }
 
     public ArrayList<Point> readPoints() {
-        int[] cordsInTab = new int[4];//respectively x ,y ,tab[2] and tab[3] control good imput
         ArrayPoints arrayPoints = new ArrayPoints();
         ArrayList<Point> result = new ArrayList<>();
+        int[] cordsInTab = new int[4];
         Scanner scanner = new Scanner(System.in);
-        String bufor = scanner.nextLine();
-        StringTokenizer stringTokenizer = new StringTokenizer(bufor);
 
-        while (stringTokenizer.hasMoreTokens()) {
-            String txt = stringTokenizer.nextToken();
-            makeGoodInput(txt, cordsInTab);
-            if (cordsInTab[2] != 3 || cordsInTab[3] != 2) {
+        String bufor = scanner.nextLine();
+        bufor = bufor.trim().toUpperCase();
+
+        if (bufor.equals("END")) {
+            result.add(new Point(666, 0));
+            return result;
+        }
+        if (bufor.equals("GENERATE")) {
+            result.add(new Point(777, 0));
+            return result;
+        }
+
+        String[] splitTxt = bufor.split(" ");
+
+        for (int i = 0; i < splitTxt.length; i++) {
+            if (splitTxt[i].isEmpty()) {
+                continue;
+            }
+            String txt = splitTxt[i];
+
+            makeAndCheckInput(txt, cordsInTab);
+
+            if (correctInput(cordsInTab)) {
                 return null;
             }
-            result.add(new Point(cordsInTab[1], cordsInTab[0]));
-            //reset all table.
-            for (int i = 0; i < cordsInTab.length; i++) {
-                cordsInTab[i] = 0;
-            }
+            Point point = new Point(cordsInTab[1], cordsInTab[0]);
+            if(result.contains(point)){
+                return null;
+            };//added
+            result.add(point);
+            resetTable(cordsInTab);
         }
-        if (!arrayPoints.areString(result) && !arrayPoints.areInOneLine(result)) {
-            return null;
+        if (arrayPoints.areString(result) && arrayPoints.areInOneLine(result)) {
+            return result;
         }
-        return result;
+        return null;
     }
 
-    private void makeGoodInput(String txt, int[] tabCharacter) {
-        txt = txt.toUpperCase();
+    private void makeAndCheckInput(String txt, int[] tabCharacter) {
         for (int i = 0; i < txt.length(); i++) {
             int buf = txt.charAt(i);
             tabCharacter[3]++;
-            if (buf >= 65 && buf <= 74) {
+            if (isCharacter(buf)) {
                 tabCharacter[0] = changeCharacterToNumber(txt.charAt(i)); //y
                 tabCharacter[2] += 2;
             }
-            if (buf >= 49 && buf <= 58) {
+            if (isNumber(buf)) {
                 if ((i + 1) < txt.length() && txt.charAt(i + 1) == '0') {
                     String number10 = "" + txt.charAt(i) + txt.charAt(i + 1);
                     tabCharacter[1] = Integer.parseInt(number10);
@@ -120,6 +141,24 @@ public class ReadCord {
                 return 'J';
             default:
                 return '?';
+        }
+    }
+
+    private boolean correctInput(int[] cordsInTab) {
+        return cordsInTab[2] != 3 || cordsInTab[3] != 2;
+    }
+
+    private boolean isCharacter(int c) {
+        return c >= 65 && c <= 74;
+    }
+
+    private boolean isNumber(int c) {
+        return c >= 49 && c <= 58;
+    }
+
+    private void resetTable(int[] cordsInTab) {
+        for (int j = 0; j < cordsInTab.length; j++) {
+            cordsInTab[j] = 0;
         }
     }
 }

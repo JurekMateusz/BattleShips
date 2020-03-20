@@ -1,8 +1,11 @@
 package com.ships.player;
 
+import com.ships.input.ArrayPoints;
 import com.ships.input.ReadCord;
+import com.ships.ship.Ship;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
 public class HumanPlayer extends AbstractPlayer {
 
@@ -14,9 +17,38 @@ public class HumanPlayer extends AbstractPlayer {
 
     @Override
     public void putShips() {
-        super.putShips();    //TODO user can put his configuration of ship,computer will adopt
-        System.out.println("   Your generated ships on board:");
+        int i = 1;
+        ArrayList<Point> pointsShip;
+        ArrayPoints pointsChecker = new ArrayPoints();
+        while (true) {
+            board.printBoard(ships);
+            System.out.print("Type cords for ship nr " + i + " : ");
+            pointsShip = reader.readPoints();
+            if (pointsShip == null) {
+                System.out.println("Bad imput :[");
+                continue;
+            }
+            if (pointsShip.get(0).getX() == 777) {
+                super.putShips();
+                break;
+            }
+            if (pointsShip.get(0).getX() == 666 && !ships.isEmpty()) {
+                return;
+            }
+            if (pointsExist(pointsShip)) {
+                System.out.println("\tYou already typed this field/fields. Type another one :)");
+                continue;
+            }
+            if (pointsChecker.areBordering(pointsShip, ships)) {
+                System.out.println("\tShips can't touch each other, there must be at least one free field");
+                continue;
+            }
+            ships.add(new Ship(pointsShip));
+            i++;
+            pointsShip.clear();
+        }
         board.printBoard(ships);
+
     }
 
 
@@ -59,7 +91,7 @@ public class HumanPlayer extends AbstractPlayer {
                 System.lineSeparator() + "\tYour board:\t\t\t\t" + opponent.getName() +
                 " board:");
 
-        board.printTwoBoards(missPoints,opponent.getShips() , opponent.getMissPoints(), ships);
+        board.printTwoBoards(missPoints, opponent.getShips(), opponent.getMissPoints(), ships);
     }
 }
 
